@@ -1,0 +1,68 @@
+PRIORITY SCHEDULING
+
+Aim:
+
+To implement priority scheduling technique
+
+Algorithm:
+
+1. Get the number of processes from the user.
+2. Read the process name, burst time and priority of process.
+3. Sort based on burst time of all processes in ascending order based priority
+4. Calculate the total waiting time and total turnaround time for each process
+5. Display the process name & burst time for each process.
+6. Display the total waiting time, average waiting time, turnaround time
+
+Program Code:
+
+#include <stdio.h>
+void swap(int *a,int *b)
+{
+    int temp=*a;
+    *a=*b;
+    *b=temp;
+}
+int main()
+{
+    int n;
+    printf("Enter Number of Processes: ");
+    scanf("%d",&n);
+    int b[n],p[n],index[n];
+    for(int i=0;i<n;i++)
+    {
+        printf("Enter Burst Time and Priority Value for Process %d: ",i+1);
+        scanf("%d %d",&b[i],&p[i]);
+        index[i]=i+1;
+    }
+    for(int i=0;i<n;i++)
+    {
+        int a=p[i],m=i;
+        for(int j=i;j<n;j++)
+        {
+            if(p[j] > a)
+            {
+                a=p[j];
+                m=j;
+            }
+        }
+        swap(&p[i], &p[m]);
+        swap(&b[i], &b[m]);
+        swap(&index[i],&index[m]);
+    }
+    int t=0;
+    printf("Order of process Execution is\n");
+    for(int i=0;i<n;i++)
+    {
+        printf("P%d is executed from %d to %d\n",index[i],t,t+b[i]);
+        t+=b[i];
+    }
+    printf("\n");
+    printf("Process Id Burst Time Wait Time TurnAround Time\n");
+    int wait_time=0;
+    for(int i=0;i<n;i++)
+    {
+        printf("P%d %d %d %d\n",index[i],b[i],wait_time,wait_time + b[i]);
+        wait_time += b[i];
+    }
+    return 0;
+}
